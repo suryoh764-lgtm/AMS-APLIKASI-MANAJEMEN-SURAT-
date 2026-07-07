@@ -20,8 +20,8 @@
                 $query = mysqli_query($config, "SELECT * FROM tbl_instansi");
                 while($data = mysqli_fetch_array($query)){
             ?>
-                <span class="white-text copyright-date">&copy; <?php echo date("Y"); ?> <?php echo $data['nama'] .'</span>
-                ';?>
+                <span class="white-text copyright-date">&copy; <?php echo date("Y"); ?> <?php echo $data['nama']; ?></span>
+                <span class="white-text"> | Developed by Suryo Kolonel (bnnp_lampung@bnn.go.id)</span>
             <?php } ?>
         </div>
     </div>
@@ -29,11 +29,11 @@
 <!-- Footer END -->
 
 <!-- Javascript START -->
-<script type="text/javascript" src="asset/js/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="asset/js/materialize.min.js"></script>
-<script type="text/javascript" src="asset/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="asset/js/jquery.autocomplete.min.js"></script>
-<script data-pace-options='{ "ajax": false }' src='asset/js/pace.min.js'></script>
+<script type="text/javascript" src="asset/js/jquery-2.1.1.min.js?v=<?php echo time(); ?>"></script>
+<script type="text/javascript" src="asset/js/materialize.min.js?v=<?php echo time(); ?>"></script>
+<script type="text/javascript" src="asset/js/bootstrap.min.js?v=<?php echo time(); ?>"></script>
+<script type="text/javascript" src="asset/js/jquery.autocomplete.min.js?v=<?php echo time(); ?>"></script>
+<script data-pace-options='{ "ajax": false }' src='asset/js/pace.min.js?v=<?php echo time(); ?>'></script>
 <script type="text/javascript">
 $(document).ready(function(){
     //jquery dropdown

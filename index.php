@@ -296,10 +296,10 @@ Website     : https://masrud.com
     <!-- Container END -->
 
     <!-- Javascript START -->
-    <script type="text/javascript" src="asset/js/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="asset/js/materialize.min.js"></script>
-    <script type="text/javascript" src="asset/js/bootstrap.min.js"></script>
-    <script data-pace-options='{ "ajax": false }' src='./asset/js/pace.min.js'></script>
+    <script type="text/javascript" src="asset/js/jquery-2.1.1.min.js?v=<?php echo time(); ?>"></script>
+    <script type="text/javascript" src="asset/js/materialize.min.js?v=<?php echo time(); ?>"></script>
+    <script type="text/javascript" src="asset/js/bootstrap.min.js?v=<?php echo time(); ?>"></script>
+    <script data-pace-options='{ "ajax": false }' src='./asset/js/pace.min.js?v=<?php echo time(); ?>'></script>
 
     <!-- Jquery auto hide untuk menampilkan pesan error -->
     <script type="text/javascript">

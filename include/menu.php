@@ -20,7 +20,7 @@
                             if(!empty($data['nama'])){
                                 echo '<h5 class="smk-side">'.$data['nama'].'</h5>';
                             } else {
-                                echo '<h5 class="smk-side">SMK  Al - Husna Loceret Nganjuk</h5>';
+                                echo '<h5 class="smk-side">BADAN NARKOTIKA NASIONAL PROVINSI LAMPUNG</h5>';
                             }
                             if(!empty($data['alamat'])){
                                 echo '<p class="description-side">'.$data['alamat'].'</p>';

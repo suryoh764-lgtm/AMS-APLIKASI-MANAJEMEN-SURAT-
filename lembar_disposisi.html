@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lembar Disposisi - BNNP Lampung</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 18mm;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 10pt;
+            margin: 0;
+            padding: 20px 30px;
+            color: #000;
+        }
+
+        .header-title {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11.5pt;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .main-title {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16.5pt;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+        }
+
+        td,
+        th {
+            border: 1px solid #000;
+            padding: 6px 8px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 10pt;
+            vertical-align: top;
+        }
+
+        /* ===== Bagian 1: Info Surat + Perihal ===== */
+        .info-section {
+            width: 58%;
+            padding: 0;
+            border-right: 1px solid #000;
+            vertical-align: top;
+        }
+
+        .perihal-section {
+            width: 42%;
+            padding: 6px 8px;
+            vertical-align: top;
+            font-weight: bold;
+        }
+
+        /* Inner table untuk info detail - garis solid horizontal antar baris */
+        .info-inner-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .info-inner-table td {
+            border: none;
+            border-bottom: 1px solid #000;
+            padding: 5px 8px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 10pt;
+            vertical-align: middle;
+        }
+
+        .info-inner-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .info-label-col {
+            width: 38%;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .info-colon-col {
+            width: 4%;
+            text-align: center;
+        }
+
+        .info-value-col {
+            width: 58%;
+        }
+
+        .checkbox-box {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #000;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        /* ===== Bagian 2: KEPADA YTH. ===== */
+        .box {
+            border: 1px solid #000;
+            border-top: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .box-header {
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 1px solid #000;
+            padding: 6px 8px;
+        }
+
+        .box-main {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .box-left {
+            display: table-cell;
+            width: 58%;
+            border-right: 1px solid #000;
+            padding: 4px 8px;
+            vertical-align: top;
+        }
+
+        .box-right {
+            display: table-cell;
+            width: 42%;
+            padding: 4px 8px;
+            vertical-align: top;
+        }
+
+        .check-row {
+            display: flex;
+            align-items: flex-start;
+            padding: 5px 0;
+            line-height: 1.3;
+        }
+
+        .check-row span.checkbox-box {
+            flex: 0 0 auto;
+            margin-top: 2px;
+        }
+
+        .check-row-text {
+            flex: 1;
+            margin-left: 4px;
+            font-weight: bold;
+        }
+
+        /* ===== Bagian 3: DISPOSISI KEPALA BNNP ===== */
+        .disposisi-table {
+            border-top: none;
+        }
+
+        .disposisi-header {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .disposisi-left {
+            width: 58%;
+            border-right: 1px solid #000;
+            padding: 0;
+            margin: 0;
+            vertical-align: top;
+        }
+
+        .disposisi-row {
+            display: flex;
+            align-items: center;
+            padding: 10px 8px;
+            line-height: 1.3;
+            border-bottom: 1px solid #000;
+        }
+
+        .disposisi-row:last-child {
+            border-bottom: none;
+        }
+
+        .disposisi-num {
+            width: 8%;
+            text-align: left;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 10pt;
+        }
+
+        .disposisi-label {
+            flex: 1;
+            padding-left: 6px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 10pt;
+        }
+
+        .disposisi-check {
+            width: 30px;
+            text-align: center;
+            margin-left: 8px;
+        }
+
+        .empty-cell {
+            width: 42%;
+            vertical-align: top;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-title">BNNP LAMPUNG</div>
+
+    <div class="main-title">LEMBAR DISPOSISI</div>
+
+    <!-- 1. Bagian Info Surat + Perihal -->
+    <table>
+        <tr>
+            <td class="info-section">
+                <table class="info-inner-table">
+                    <tr>
+                        <td class="info-label-col">NO AGENDA SURAT</td>
+                        <td class="info-colon-col">:</td>
+                        <td class="info-value-col"></td>
+                    </tr>
+                    <tr>
+                        <td class="info-label-col">DITERIMA TANGGAL</td>
+                        <td class="info-colon-col">:</td>
+                        <td class="info-value-col"></td>
+                    </tr>
+                    <tr>
+                        <td class="info-label-col">SURAT DARI</td>
+                        <td class="info-colon-col">:</td>
+                        <td class="info-value-col"></td>
+                    </tr>
+                    <tr>
+                        <td class="info-label-col">NOMOR SURAT</td>
+                        <td class="info-colon-col">:</td>
+                        <td class="info-value-col"></td>
+                    </tr>
+                    <tr>
+                        <td class="info-label-col">TANGGAL SURAT</td>
+                        <td class="info-colon-col">:</td>
+                        <td class="info-value-col"></td>
+                    </tr>
+                </table>
+            </td>
+            <td class="perihal-section">PERIHAL :</td>
+        </tr>
+    </table>
+
+    <!-- 2. Bagian KEPADA YTH -->
+    <div class="box">
+        <div class="box-header">KEPADA YTH.</div>
+        <div class="box-main">
+            <div class="box-left">
+                <div class="check-row">
+                    <span class="checkbox-box"></span>
+                    <span class="check-row-text">KEPALA BAGIAN UMUM</span>
+                </div>
+                <div class="check-row">
+                    <span class="checkbox-box"></span>
+                    <span class="check-row-text">KEPALA BIDANG PEMBERATASAN &amp; INTELIJEN</span>
+                </div>
+                <div class="check-row">
+                    <span class="checkbox-box"></span>
+                    <span class="check-row-text">KATIM KERJA P2M</span>
+                </div>
+                <div class="check-row">
+                    <span class="checkbox-box"></span>
+                    <span class="check-row-text">KATIM KERJA REHABILITASI</span>
+                </div>
+            </div>
+            <div class="box-right"></div>
+        </div>
+    </div>
+
+    <!-- 3. Bagian DISPOSISI KEPALA BNNP -->
+    <table class="disposisi-table">
+        <tr>
+            <td class="disposisi-header" colspan="2">DISPOSISI KEPALA BNNP</td>
+        </tr>
+        <tr>
+            <td class="disposisi-left">
+                <div class="disposisi-row">
+                    <span class="disposisi-num">1</span>
+                    <span class="disposisi-label">FILE</span>
+                    <span class="disposisi-check"><span class="checkbox-box" style="margin-right:0;"></span></span>
+                </div>
+                <div class="disposisi-row">
+                    <span class="disposisi-num">2</span>
+                    <span class="disposisi-label">TINDAK LANJUTI</span>
+                    <span class="disposisi-check"><span class="checkbox-box" style="margin-right:0;"></span></span>
+                </div>
+                <div class="disposisi-row">
+                    <span class="disposisi-num">3</span>
+                    <span class="disposisi-label">PEDOMANI</span>
+                    <span class="disposisi-check"><span class="checkbox-box" style="margin-right:0;"></span></span>
+                </div>
+                <div class="disposisi-row">
+                    <span class="disposisi-num">4</span>
+                    <span class="disposisi-label">TERUSKAN</span>
+                    <span class="disposisi-check"><span class="checkbox-box" style="margin-right:0;"></span></span>
+                </div>
+                <div class="disposisi-row">
+                    <span class="disposisi-num">5</span>
+                    <span class="disposisi-label">PENUHI</span>
+                    <span class="disposisi-check"><span class="checkbox-box" style="margin-right:0;"></span></span>
+                </div>
+                <div class="disposisi-row">
+                    <span class="disposisi-num">6</span>
+                    <span class="disposisi-label">JADWALKAN</span>
+                    <span class="disposisi-check"><span class="checkbox-box" style="margin-right:0;"></span></span>
+                </div>
+                <div class="disposisi-row">
+                    <span class="disposisi-num">7</span>
+                    <span class="disposisi-label">ACC</span>
+                    <span class="disposisi-check"><span class="checkbox-box" style="margin-right:0;"></span></span>
+                </div>
+                <div class="disposisi-row">
+                    <span class="disposisi-num">8</span>
+                    <span class="disposisi-label">WAKILI</span>
+                    <span class="disposisi-check"><span class="checkbox-box" style="margin-right:0;"></span></span>
+                </div>
+            </td>
+            <td class="empty-cell"></td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

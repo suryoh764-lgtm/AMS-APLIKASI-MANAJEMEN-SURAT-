@@ -173,10 +173,20 @@
                                             <i class="material-icons">print</i> PRINT</a>';
                                     } else {
                                       echo '<a class="btn small blue waves-effect waves-light" href="?page=tsm&act=edit&id_surat='.$row['id_surat'].'">
-                                                <i class="material-icons">edit</i> EDIT</a>
-                                            <a class="btn small light-green waves-effect waves-light tooltipped" data-position="left" data-tooltip="Pilih Disp untuk menambahkan Disposisi Surat" href="?page=tsm&act=disp&id_surat='.$row['id_surat'].'">
-                                                <i class="material-icons">description</i> DISP</a>
-                                            <a class="btn small yellow darken-3 waves-effect waves-light" href="?page=ctk&id_surat='.$row['id_surat'].'" target="_blank">
+                                                <i class="material-icons">edit</i> EDIT</a>';
+
+                                        // Cek apakah disposisi sudah ada
+                                        $cek_disp = mysqli_query($config, "SELECT id_disposisi FROM tbl_disposisi WHERE id_surat='".$row['id_surat']."' LIMIT 1");
+                                        if(mysqli_num_rows($cek_disp) > 0){
+                                            $disp_row = mysqli_fetch_array($cek_disp);
+                                            echo '<a class="btn small light-green waves-effect waves-light tooltipped" data-position="left" data-tooltip="Edit Disposisi Surat" href="?page=tsm&act=disp&id_surat='.$row['id_surat'].'&sub=edit&id_disposisi='.$disp_row['id_disposisi'].'">
+                                                <i class="material-icons">description</i> DISP</a>';
+                                        } else {
+                                            echo '<a class="btn small light-green waves-effect waves-light tooltipped" data-position="left" data-tooltip="Tambah Disposisi Surat Baru" href="?page=tsm&act=disp&id_surat='.$row['id_surat'].'&sub=add">
+                                                <i class="material-icons">description</i> DISP</a>';
+                                        }
+
+                                      echo '<a class="btn small yellow darken-3 waves-effect waves-light" href="?page=ctk&id_surat='.$row['id_surat'].'" target="_blank">
                                                 <i class="material-icons">print</i> PRINT</a>
                                             <a class="btn small deep-orange waves-effect waves-light" href="?page=tsm&act=del&id_surat='.$row['id_surat'].'">
                                                 <i class="material-icons">delete</i> DEL</a>';
@@ -277,10 +287,20 @@
                                                 <i class="material-icons">print</i> PRINT</a>';
                                         } else {
                                           echo '<a class="btn small blue waves-effect waves-light" href="?page=tsm&act=edit&id_surat='.$row['id_surat'].'">
-                                                    <i class="material-icons">edit</i> EDIT</a>
-                                                <a class="btn small light-green waves-effect waves-light tooltipped" data-position="left" data-tooltip="Pilih Disp untuk menambahkan Disposisi Surat" href="?page=tsm&act=disp&id_surat='.$row['id_surat'].'">
-                                                    <i class="material-icons">description</i> DISP</a>
-                                                <a class="btn small yellow darken-3 waves-effect waves-light" href="?page=ctk&id_surat='.$row['id_surat'].'" target="_blank">
+                                                    <i class="material-icons">edit</i> EDIT</a>';
+
+                                            // Cek apakah disposisi sudah ada
+                                            $cek_disp2 = mysqli_query($config, "SELECT id_disposisi FROM tbl_disposisi WHERE id_surat='".$row['id_surat']."' LIMIT 1");
+                                            if(mysqli_num_rows($cek_disp2) > 0){
+                                                $disp_row2 = mysqli_fetch_array($cek_disp2);
+                                                echo '<a class="btn small light-green waves-effect waves-light tooltipped" data-position="left" data-tooltip="Edit Disposisi Surat" href="?page=tsm&act=disp&id_surat='.$row['id_surat'].'&sub=edit&id_disposisi='.$disp_row2['id_disposisi'].'">
+                                                    <i class="material-icons">description</i> DISP</a>';
+                                            } else {
+                                                echo '<a class="btn small light-green waves-effect waves-light tooltipped" data-position="left" data-tooltip="Tambah Disposisi Surat Baru" href="?page=tsm&act=disp&id_surat='.$row['id_surat'].'&sub=add">
+                                                    <i class="material-icons">description</i> DISP</a>';
+                                            }
+
+                                          echo '<a class="btn small yellow darken-3 waves-effect waves-light" href="?page=ctk&id_surat='.$row['id_surat'].'" target="_blank">
                                                     <i class="material-icons">print</i> PRINT</a>
                                                 <a class="btn small deep-orange waves-effect waves-light" href="?page=tsm&act=del&id_surat='.$row['id_surat'].'">
                                                     <i class="material-icons">delete</i> DEL</a>';

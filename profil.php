@@ -61,20 +61,21 @@
                                             $do = mysqli_query($config, "UPDATE tbl_user SET username='$username', password=MD5('$password'), nama='$nama', nip='$nip' WHERE id_user='$id_user'");
 
                                             if($do == true){
-                                                echo '<script language="javascript">
-                                                        window.alert("SUKSES! profil berhasil diupdate");
-                                                        window.location.href="./logout.php";
-                                                      </script>';
+                                                $_SESSION['username'] = $username;
+                                                $_SESSION['nama'] = $nama;
+                                                $_SESSION['nip'] = $nip;
+                                                $_SESSION['succEdit'] = 'SUKSES! Profil berhasil diupdate';
+                                                header("Location: ./admin.php?page=pro");
+                                                die();
                                             } else {
                                                 $_SESSION['errQ'] = 'ERROR! Ada masalah dengan query';
                                                 header("Location: ./admin.php?page=pro&sub=pass");
                                                 die();
                                             }
                                         } else {
-                                            echo '<script language="javascript">
-                                                    window.alert("ERROR! Password lama tidak sesuai. Anda mungkin tidak memiliki akses ke halaman ini");
-                                                    window.location.href="./logout.php";
-                                                  </script>';
+                                            $_SESSION['errQ'] = 'ERROR! Password lama tidak sesuai';
+                                            header("Location: ./admin.php?page=pro&sub=pass");
+                                            die();
                                         }
                                     }
                                 }
@@ -195,7 +196,6 @@
                                         }
                                     ?>
                                 <label for="password">Password Baru</label>
-                                <small class="red-text">*Setelah menekan tombol "Simpan", Anda akan diminta melakukan Login ulang.</small>
                             </div>
                         </div>
                         <!-- Row in form END -->
@@ -237,6 +237,22 @@
                 <!-- Secondary Nav END -->
             </div>
             <!-- Row END -->
+
+            <?php
+                if(isset($_SESSION['succEdit'])){
+                    $succEdit = $_SESSION['succEdit'];
+                    echo '<div id="alert-message" class="row">
+                            <div class="col m12">
+                                <div class="card green lighten-5">
+                                    <div class="card-content notif">
+                                        <span class="card-title green-text"><i class="material-icons md-36">done</i> '.$succEdit.'</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+                    unset($_SESSION['succEdit']);
+                }
+            ?>
 
             <!-- Row form Start -->
             <div class="row jarak-form">

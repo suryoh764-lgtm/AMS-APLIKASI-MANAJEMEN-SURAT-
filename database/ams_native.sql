@@ -35,7 +35,17 @@ CREATE TABLE `tbl_disposisi` (
   `batas_waktu` date NOT NULL,
   `catatan` varchar(250) NOT NULL,
   `id_surat` int(10) NOT NULL,
-  `id_user` tinyint(2) NOT NULL
+  `id_user` tinyint(2) NOT NULL,
+  `no_agenda_kepala` varchar(50) NOT NULL,
+  `tanggal_diterima_kepala` date,
+  `pukul` varchar(20) NOT NULL,
+  `tujuan_kabag_umum` tinyint(1) NOT NULL DEFAULT 0,
+  `tujuan_kabid_berantas` tinyint(1) NOT NULL DEFAULT 0,
+  `tujuan_katim_p2m` tinyint(1) NOT NULL DEFAULT 0,
+  `tindakan_file` tinyint(1) NOT NULL DEFAULT 0,
+  `tindakan_tindak_lanjuti` tinyint(1) NOT NULL DEFAULT 0,
+  `tindakan_pedomani` tinyint(1) NOT NULL DEFAULT 0,
+  `tindakan_acc` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -90,6 +100,7 @@ CREATE TABLE `tbl_sett` (
   `surat_masuk` tinyint(2) NOT NULL,
   `surat_keluar` tinyint(2) NOT NULL,
   `referensi` tinyint(2) NOT NULL,
+  `disposisi` tinyint(2) NOT NULL DEFAULT 10,
   `id_user` tinyint(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -136,6 +147,7 @@ CREATE TABLE `tbl_surat_masuk` (
   `indeks` varchar(30) NOT NULL,
   `tgl_surat` date NOT NULL,
   `tgl_diterima` date NOT NULL,
+  `pukul` varchar(20) NOT NULL,
   `file` varchar(250) NOT NULL,
   `keterangan` varchar(250) NOT NULL,
   `id_user` tinyint(2) NOT NULL

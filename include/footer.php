@@ -47,7 +47,7 @@ $(document).ready(function(){
     });
 
     //jquery datepicker
-    $('#tgl_surat,#batas_waktu,#dari_tanggal,#sampai_tanggal').pickadate({
+    $('#tgl_surat,#batas_waktu,#dari_tanggal,#sampai_tanggal,#tgl_diterima,#tanggal_diterima_kepala').pickadate({
         selectMonths: true,
         selectYears: 10,
         format: "yyyy-mm-dd"

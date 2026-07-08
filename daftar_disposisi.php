@@ -111,12 +111,36 @@
                     $no = 0;
                     while($row = mysqli_fetch_array($query)){
                         $no++;
+                        $tujuan_list = [];
+                        if($row['tujuan_kabag_umum'] == 1) $tujuan_list[] = "Kabag Umum";
+                        if($row['tujuan_kabid_berantas'] == 1) $tujuan_list[] = "Kabid Pemberantasan";
+                        if($row['tujuan_katim_p2m'] == 1) $tujuan_list[] = "Katim P2M";
+                        $tujuan_disp = implode(', ', $tujuan_list);
+                        if(empty($tujuan_disp) && !empty($row['tujuan'])) $tujuan_disp = $row['tujuan'];
+                        if(empty($tujuan_disp)) $tujuan_disp = '-';
+
+                        $tindakan_list = [];
+                        if($row['tindakan_file'] == 1) $tindakan_list[] = "File";
+                        if($row['tindakan_tindak_lanjuti'] == 1) $tindakan_list[] = "Tindak Lanjuti";
+                        if($row['tindakan_pedomani'] == 1) $tindakan_list[] = "Pedomani";
+                        if($row['tindakan_acc'] == 1) $tindakan_list[] = "ACC";
+                        $isi_disp = implode(', ', $tindakan_list);
+                        if(!empty($row['catatan'])) {
+                            if(!empty($isi_disp)) {
+                                $isi_disp .= " (Catatan: ".$row['catatan'].")";
+                            } else {
+                                $isi_disp = "Catatan: ".$row['catatan'];
+                            }
+                        }
+                        if(empty($isi_disp) && !empty($row['isi_disposisi'])) $isi_disp = $row['isi_disposisi'];
+                        if(empty($isi_disp)) $isi_disp = '-';
+
                         echo '<tr>
                             <td>'.$no.'</td>
                             <td>'.$row['no_agenda'].'</td>
                             <td>'.substr($row['isi'],0,120).'</td>
-                            <td>'.$row['tujuan'].'</td>
-                            <td>'.$row['isi_disposisi'].'</td>
+                            <td>'.$tujuan_disp.'</td>
+                            <td>'.$isi_disp.'</td>
                             <td>'.$row['sifat'].'<br/>'.indoDate($row['batas_waktu']).'</td>
                             <td>';
 
@@ -214,12 +238,36 @@
                     $no = $curr;
                     while($row = mysqli_fetch_array($query)){
                         $no++;
+                        $tujuan_list = [];
+                        if($row['tujuan_kabag_umum'] == 1) $tujuan_list[] = "Kabag Umum";
+                        if($row['tujuan_kabid_berantas'] == 1) $tujuan_list[] = "Kabid Pemberantasan";
+                        if($row['tujuan_katim_p2m'] == 1) $tujuan_list[] = "Katim P2M";
+                        $tujuan_disp = implode(', ', $tujuan_list);
+                        if(empty($tujuan_disp) && !empty($row['tujuan'])) $tujuan_disp = $row['tujuan'];
+                        if(empty($tujuan_disp)) $tujuan_disp = '-';
+
+                        $tindakan_list = [];
+                        if($row['tindakan_file'] == 1) $tindakan_list[] = "File";
+                        if($row['tindakan_tindak_lanjuti'] == 1) $tindakan_list[] = "Tindak Lanjuti";
+                        if($row['tindakan_pedomani'] == 1) $tindakan_list[] = "Pedomani";
+                        if($row['tindakan_acc'] == 1) $tindakan_list[] = "ACC";
+                        $isi_disp = implode(', ', $tindakan_list);
+                        if(!empty($row['catatan'])) {
+                            if(!empty($isi_disp)) {
+                                $isi_disp .= " (Catatan: ".$row['catatan'].")";
+                            } else {
+                                $isi_disp = "Catatan: ".$row['catatan'];
+                            }
+                        }
+                        if(empty($isi_disp) && !empty($row['isi_disposisi'])) $isi_disp = $row['isi_disposisi'];
+                        if(empty($isi_disp)) $isi_disp = '-';
+
                         echo '<tr>
                             <td>'.$no.'</td>
                             <td>'.$row['no_agenda'].'</td>
                             <td>'.substr($row['isi'],0,120).'</td>
-                            <td>'.$row['tujuan'].'</td>
-                            <td>'.$row['isi_disposisi'].'</td>
+                            <td>'.$tujuan_disp.'</td>
+                            <td>'.$isi_disp.'</td>
                             <td>'.$row['sifat'].'<br/>'.indoDate($row['batas_waktu']).'</td>
                             <td>';
 

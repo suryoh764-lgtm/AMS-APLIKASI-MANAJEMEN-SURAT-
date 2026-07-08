@@ -42,10 +42,15 @@ CREATE TABLE `tbl_disposisi` (
   `tujuan_kabag_umum` tinyint(1) NOT NULL DEFAULT 0,
   `tujuan_kabid_berantas` tinyint(1) NOT NULL DEFAULT 0,
   `tujuan_katim_p2m` tinyint(1) NOT NULL DEFAULT 0,
+  `tujuan_katim_rehab` tinyint(1) NOT NULL DEFAULT 0,
   `tindakan_file` tinyint(1) NOT NULL DEFAULT 0,
   `tindakan_tindak_lanjuti` tinyint(1) NOT NULL DEFAULT 0,
   `tindakan_pedomani` tinyint(1) NOT NULL DEFAULT 0,
-  `tindakan_acc` tinyint(1) NOT NULL DEFAULT 0
+  `tindakan_teruskan` tinyint(1) NOT NULL DEFAULT 0,
+  `tindakan_penuhi` tinyint(1) NOT NULL DEFAULT 0,
+  `tindakan_jadwalkan` tinyint(1) NOT NULL DEFAULT 0,
+  `tindakan_acc` tinyint(1) NOT NULL DEFAULT 0,
+  `tindakan_wakil` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -73,7 +78,7 @@ CREATE TABLE `tbl_instansi` (
 --
 
 INSERT INTO `tbl_instansi` (`id_instansi`, `institusi`, `nama`, `status`, `alamat`, `kepsek`, `nip`, `website`, `email`, `logo`, `id_user`) VALUES
-(1, 'Dinas Pendidikan Pemuda Dan Olahraga', 'SMK MasRud.com', 'Terakreditasi A', 'Sawahan, Nganjuk, Jawa Timur', 'Rudi', '-', 'https://masrud.com', 'email@masrud.com', 'logo.png', 1);
+(1, 'Badan Narkotika Nasional', 'BADAN NARKOTIKA NASIONAL PROVINSI LAMPUNG', 'Terakreditasi A', 'Jalan Ikan Bawal No. 92 Teluk Betung - Bandar Lampung Kode Pos 35221', 'Rudi', '-', 'https://masrud.com', 'email@masrud.com', 'Logo_BNN.png', 1);
 
 -- --------------------------------------------------------
 
@@ -173,7 +178,7 @@ CREATE TABLE `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`id_user`, `username`, `password`, `nama`, `nip`, `admin`) VALUES
-(1, 'masrud', '7d05dc02abe9cda729d0c798c886db47', 'Rudi', '-', 1);
+(1, 'masrud', '7d05dc02abe9cda729d0c798c886db47', 'Admin', '-', 1);
 
 --
 -- Indexes for dumped tables

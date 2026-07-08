@@ -18,7 +18,7 @@ Date        : 2016
 Developer   : BNN
 Phone/WA    : 0852-3290-4156
 Email       : rudi@masrud.com
-Website     : https://masrud.com
+Website     : https://bnn.com
 
 -->
 <!doctype html>

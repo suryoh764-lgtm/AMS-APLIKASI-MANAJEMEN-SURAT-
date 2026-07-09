@@ -124,10 +124,10 @@
                         <!-- Tanggal Surat -->
                         <div class="input-field col s6" style="position: relative; z-index: 10;">
                             <i class="material-icons prefix md-prefix" style="cursor: pointer;">date_range</i>
-                            <input id="tgl_surat" type="text" name="tgl_surat" class="datepicker validate"
+                            <input id="tgl_surat_sprint" type="text" name="tgl_surat" class="datepicker validate"
                                    value="<?php echo $data['tgl_surat']; ?>" required
                                    style="position: relative; z-index: 11; cursor: pointer; background: transparent;">
-                            <label for="tgl_surat" class="active">Tanggal Surat</label>
+                            <label for="tgl_surat_sprint" class="active">Tanggal Surat</label>
                         </div>
 
                         <!-- No. Surat (readonly - tidak berubah saat edit) -->
@@ -188,7 +188,7 @@
             </div>
             <script>
             $(document).ready(function(){
-                var tglInput = $('#tgl_surat');
+                var tglInput = $('#tgl_surat_sprint');
                 
                 // Inisialisasi picker secara eksplisit agar instan siap pakai
                 tglInput.pickadate({
@@ -200,7 +200,7 @@
                 var picker = tglInput.pickadate('picker');
 
                 // Klik pada input, icon prefix, atau label akan langsung membuka picker
-                $('#tgl_surat, .input-field .prefix, .input-field label[for="tgl_surat"]').on('click', function(e){
+                $('#tgl_surat_sprint, .input-field .prefix, .input-field label[for="tgl_surat_sprint"]').on('click', function(e){
                     e.preventDefault();
                     if(picker){
                         picker.open();

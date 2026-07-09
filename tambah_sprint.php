@@ -154,9 +154,9 @@
                         <!-- Tanggal Surat (trigger utama) -->
                         <div class="input-field col s6" style="position: relative; z-index: 10;">
                             <i class="material-icons prefix md-prefix" style="cursor: pointer;">date_range</i>
-                            <input id="tgl_surat" type="text" name="tgl_surat" class="datepicker validate" required
+                            <input id="tgl_surat_sprint" type="text" name="tgl_surat" class="datepicker validate" required
                                    style="position: relative; z-index: 11; cursor: pointer; background: transparent;">
-                            <label for="tgl_surat">Tanggal Surat</label>
+                            <label for="tgl_surat_sprint">Tanggal Surat</label>
                         </div>
                         <div class="col s6" style="margin-top: -15px; margin-bottom: 15px; float: left; width: 50%;">
                             <small class="teal-text">
@@ -274,17 +274,21 @@
 
             // Tunggu jQuery & pickadate siap, lalu pasang event listener & watchdog
             $(document).ready(function(){
-                var tglInput = $('#tgl_surat');
+                var tglInput = $('#tgl_surat_sprint');
                 
-                // Inisialisasi picker secara eksplisit dengan callback onSet untuk penanganan instan
+                // Inisialisasi picker secara eksklusif (footer.php tidak akan menimpa ini karena ID-nya berbeda)
                 tglInput.pickadate({
                     selectMonths: true,
                     selectYears: 10,
                     format: "yyyy-mm-dd",
                     onSet: function(context) {
                         if(context.select){
-                            var formattedDate = this.get('select', 'yyyy-mm-dd');
-                            fetchNoSuratSprint(formattedDate);
+                            // Ambil dari instance picker secara aman
+                            var pickerInstance = tglInput.pickadate('picker');
+                            if(pickerInstance){
+                                var formattedDate = pickerInstance.get('select', 'yyyy-mm-dd');
+                                fetchNoSuratSprint(formattedDate);
+                            }
                         }
                     }
                 });
@@ -292,7 +296,7 @@
                 var picker = tglInput.pickadate('picker');
 
                 // Klik pada input, icon prefix, atau label akan langsung membuka picker
-                $('#tgl_surat, .input-field .prefix, .input-field label[for="tgl_surat"]').on('click', function(e){
+                $('#tgl_surat_sprint, .input-field .prefix, .input-field label[for="tgl_surat_sprint"]').on('click', function(e){
                     e.preventDefault();
                     if(picker){
                         picker.open();

@@ -85,7 +85,7 @@
                             <ul>
                                 <li><a href="?page=gsm">Surat Masuk</a></li>
                                 <li><a href="?page=gsk">Surat Keluar</a></li>
-                                <li><a href="?page=sprint"><i class="material-icons" style="font-size:1.2rem;vertical-align:middle;">flash_on</i> Sprint</a></li>
+                                <li><a href="?page=sprint" style="padding-left: 45px; font-size: 0.9rem; color: #009688;"><i class="material-icons" style="font-size: 1.1rem; vertical-align: middle; margin-right: 5px;">subdirectory_arrow_right</i> Sprint</a></li>
                             </ul>
                         </div>
                     </li>
@@ -154,11 +154,8 @@
             <li><a class="dropdown-button" href="#!" data-activates="galeri">Galeri File <i class="material-icons md-18">arrow_drop_down</i></a></li>
                 <ul id='galeri' class='dropdown-content'>
                     <li><a href="?page=gsm">Surat Masuk</a></li>
-                    <li><a class="dropdown-button" href="#!" data-activates="galeri_surat_keluar_drop" data-beloworigin="true">Surat Keluar <i class="material-icons md-18" style="float: right; margin-top: 5px;">arrow_drop_right</i></a></li>
-                </ul>
-                <ul id='galeri_surat_keluar_drop' class='dropdown-content'>
                     <li><a href="?page=gsk">Surat Keluar</a></li>
-                    <li><a href="?page=sprint">Sprint</a></li>
+                    <li><a href="?page=sprint" style="padding-left: 30px; font-size: 0.9rem; color: #009688;"><i class="material-icons" style="font-size: 1.1rem; vertical-align: middle; margin-right: 5px;">subdirectory_arrow_right</i> Sprint</a></li>
                 </ul>
             <li><a href="?page=ref">Referensi</a></li>
             <?php

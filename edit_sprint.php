@@ -124,10 +124,9 @@
                         <!-- Tanggal Surat -->
                         <div class="input-field col s6">
                             <i class="material-icons prefix md-prefix">date_range</i>
-                            <input id="tgl_surat" type="date" name="tgl_surat" class="validate"
-                                   value="<?php echo $data['tgl_surat']; ?>" required
-                                   style="padding-left: 3rem;">
-                            <label for="tgl_surat" class="active" style="margin-left:3rem;">Tanggal Surat</label>
+                            <input id="tgl_surat" type="text" name="tgl_surat" class="datepicker validate"
+                                   value="<?php echo $data['tgl_surat']; ?>" required>
+                            <label for="tgl_surat" class="active">Tanggal Surat</label>
                         </div>
 
                         <!-- No. Surat (readonly - tidak berubah saat edit) -->

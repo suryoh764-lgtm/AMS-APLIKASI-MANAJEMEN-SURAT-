@@ -154,10 +154,9 @@
                         <!-- Tanggal Surat (trigger utama) -->
                         <div class="input-field col s6">
                             <i class="material-icons prefix md-prefix">date_range</i>
-                            <input id="tgl_surat" type="date" name="tgl_surat" class="validate" required
-                                   style="padding-left: 3rem;">
-                            <label for="tgl_surat" style="margin-left:3rem;">Tanggal Surat</label>
-                            <small class="teal-text" style="margin-left:3rem;">
+                            <input id="tgl_surat" type="text" name="tgl_surat" class="datepicker validate" required>
+                            <label for="tgl_surat">Tanggal Surat</label>
+                            <small class="teal-text">
                                 *Pilih tanggal terlebih dahulu, nomor surat akan terisi otomatis
                             </small>
                         </div>
@@ -222,51 +221,59 @@
             </div>
             <!-- Row form END -->
 
-            <!-- SCRIPT: AJAX auto-fill no. surat -->
+            <!-- SCRIPT: AJAX auto-fill no. surat (kompatibel dengan Materialize pickadate) -->
             <script>
-            (function(){
-                var tglInput    = document.getElementById('tgl_surat');
-                var noSuratInput= document.getElementById('no_surat');
-                var infoDiv     = document.getElementById('no_surat_info');
-                var btnSimpan   = document.getElementById('btn-simpan');
+            function fetchNoSuratSprint(tgl){
+                if(!tgl){ return; }
 
-                function fetchNoSurat(tgl){
-                    if(!tgl){ return; }
+                var noSuratInput = document.getElementById('no_surat');
+                var infoDiv      = document.getElementById('no_surat_info');
+                var btnSimpan    = document.getElementById('btn-simpan');
 
-                    // Tampilkan loading
-                    noSuratInput.value = '';
-                    infoDiv.innerHTML  = '<span style="color:#ff9800;"><i class="material-icons" style="font-size:0.9rem;vertical-align:middle;">hourglass_empty</i> Menghitung nomor surat...</span>';
-                    btnSimpan.disabled = true;
+                // Tampilkan loading
+                noSuratInput.value = '';
+                infoDiv.innerHTML  = '<span style="color:#ff9800;"><i class="material-icons" style="font-size:0.9rem;vertical-align:middle;">hourglass_empty</i> Menghitung nomor surat...</span>';
+                btnSimpan.disabled = true;
 
-                    fetch('get_no_surat_sprint.php?tgl=' + encodeURIComponent(tgl))
-                        .then(function(res){ return res.json(); })
-                        .then(function(data){
+                // Gunakan XMLHttpRequest agar kompatibel dengan semua browser di localhost
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'get_no_surat_sprint.php?tgl=' + encodeURIComponent(tgl), true);
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState === 4 && xhr.status === 200){
+                        try {
+                            var data = JSON.parse(xhr.responseText);
                             if(data.error){
                                 infoDiv.innerHTML = '<span style="color:red;">Error: ' + data.error + '</span>';
                                 return;
                             }
                             noSuratInput.value = data.no_surat;
-                            // Hitung range blok
-                            var ns    = parseInt(data.no_surat);
-                            var block = Math.floor((ns - 1) / 20);
+                            var ns         = parseInt(data.no_surat);
+                            var block      = Math.floor((ns - 1) / 20);
                             var rangeStart = (block * 20) + 1;
                             var rangeEnd   = rangeStart + 19;
                             infoDiv.innerHTML = '<span style="color:#009688;">'
                                 + '<i class="material-icons" style="font-size:0.9rem;vertical-align:middle;">check_circle</i> '
                                 + 'No. Surat: <strong>' + ns + '</strong> '
-                                + '(Blok tanggal ini: ' + rangeStart + ' – ' + rangeEnd + ')'
+                                + '&nbsp;(Blok tanggal ini: ' + rangeStart + ' &ndash; ' + rangeEnd + ')'
                                 + '</span>';
                             btnSimpan.disabled = false;
-                        })
-                        .catch(function(err){
-                            infoDiv.innerHTML = '<span style="color:red;">Gagal menghubungi server</span>';
-                        });
-                }
+                        } catch(e) {
+                            infoDiv.innerHTML = '<span style="color:red;">Gagal membaca respon server</span>';
+                        }
+                    }
+                };
+                xhr.send();
+            }
 
-                tglInput.addEventListener('change', function(){
-                    fetchNoSurat(this.value);
+            // Tunggu jQuery & pickadate siap, lalu pasang event listener
+            $(document).ready(function(){
+                // pickadate menginisialisasi #tgl_surat di footer.php
+                // Gunakan jQuery .change() yang diikut-sertakan oleh pickadate
+                $('#tgl_surat').change(function(){
+                    var val = $(this).val();
+                    if(val){ fetchNoSuratSprint(val); }
                 });
-            })();
+            });
             </script>
 
 <?php

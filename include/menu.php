@@ -46,7 +46,6 @@
                 </ul>
             </li>
             <li><a href="./"><i class="material-icons middle">dashboard</i> Beranda</a></li>
-            <li><a href="?page=sprint"><i class="material-icons middle">flash_on</i> Sprint</a></li>
             <li class="no-padding">
                 <?php
                     if($_SESSION['admin'] == 1 || $_SESSION['admin'] == 3){ ?>
@@ -86,6 +85,7 @@
                             <ul>
                                 <li><a href="?page=gsm">Surat Masuk</a></li>
                                 <li><a href="?page=gsk">Surat Keluar</a></li>
+                                <li><a href="?page=sprint"><i class="material-icons" style="font-size:1rem;vertical-align:middle;">flash_on</i> Sprint</a></li>
                             </ul>
                         </div>
                     </li>
@@ -136,7 +136,6 @@
             <li><a href="./" class="ams hide-on-med-and-down">BNN</a></li>
             <li><div class="grs"></></li>
             <li><a href="./"><i class="material-icons"></i>&nbsp; Beranda</a></li>
-            <li><a href="?page=sprint"><i class="material-icons" style="vertical-align:middle;">flash_on</i>&nbsp; Sprint</a></li>
             <?php
                 if($_SESSION['admin'] == 1 || $_SESSION['admin'] == 3){ ?>
             <li><a class="dropdown-button" href="#!" data-activates="transaksi">Transaksi Surat <i class="material-icons md-18">arrow_drop_down</i></a></li>
@@ -152,10 +151,12 @@
                     <li><a href="?page=asm">Surat Masuk</a></li>
                     <li><a href="?page=ask">Surat Keluar</a></li>
                 </ul>
-            <li><a class="dropdown-button" href="#!" data-activates="agenda">Galeri File <i class="material-icons md-18">arrow_drop_down</i></a></li>
-                <ul id='agenda' class='dropdown-content'>
+            <li><a class="dropdown-button" href="#!" data-activates="galeri">Galeri File <i class="material-icons md-18">arrow_drop_down</i></a></li>
+                <ul id='galeri' class='dropdown-content'>
                     <li><a href="?page=gsm">Surat Masuk</a></li>
                     <li><a href="?page=gsk">Surat Keluar</a></li>
+                    <li class="divider"></li>
+                    <li><a href="?page=sprint"><i class="material-icons" style="font-size:1rem;vertical-align:middle;">flash_on</i> Sprint</a></li>
                 </ul>
             <li><a href="?page=ref">Referensi</a></li>
             <?php

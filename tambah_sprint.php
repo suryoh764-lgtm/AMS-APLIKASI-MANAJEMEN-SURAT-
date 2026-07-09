@@ -153,9 +153,11 @@
 
                         <!-- Tanggal Surat (trigger utama) -->
                         <div class="input-field col s6">
-                            <i class="material-icons prefix md-prefix">date_range</i>
+                            <i class="material-icons prefix md-prefix" style="cursor: pointer;">date_range</i>
                             <input id="tgl_surat" type="text" name="tgl_surat" class="datepicker validate" required>
                             <label for="tgl_surat">Tanggal Surat</label>
+                        </div>
+                        <div class="col s6" style="margin-top: -15px; margin-bottom: 15px; float: left; width: 50%;">
                             <small class="teal-text">
                                 *Pilih tanggal terlebih dahulu, nomor surat akan terisi otomatis
                             </small>
@@ -239,39 +241,66 @@
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', 'get_no_surat_sprint.php?tgl=' + encodeURIComponent(tgl), true);
                 xhr.onreadystatechange = function(){
-                    if(xhr.readyState === 4 && xhr.status === 200){
-                        try {
-                            var data = JSON.parse(xhr.responseText);
-                            if(data.error){
-                                infoDiv.innerHTML = '<span style="color:red;">Error: ' + data.error + '</span>';
-                                return;
+                    if(xhr.readyState === 4){
+                        if(xhr.status === 200){
+                            try {
+                                var data = JSON.parse(xhr.responseText);
+                                if(data.error){
+                                    infoDiv.innerHTML = '<span style="color:red;">Error: ' + data.error + '</span>';
+                                    return;
+                                }
+                                noSuratInput.value = data.no_surat;
+                                var ns         = parseInt(data.no_surat);
+                                var block      = Math.floor((ns - 1) / 20);
+                                var rangeStart = (block * 20) + 1;
+                                var rangeEnd   = rangeStart + 19;
+                                infoDiv.innerHTML = '<span style="color:#009688;">'
+                                    + '<i class="material-icons" style="font-size:0.9rem;vertical-align:middle;">check_circle</i> '
+                                    + 'No. Surat: <strong>' + ns + '</strong> '
+                                    + '&nbsp;(Blok tanggal ini: ' + rangeStart + ' &ndash; ' + rangeEnd + ')'
+                                    + '</span>';
+                                btnSimpan.disabled = false;
+                            } catch(e) {
+                                infoDiv.innerHTML = '<span style="color:red;">Gagal membaca respon server: ' + xhr.responseText + '</span>';
                             }
-                            noSuratInput.value = data.no_surat;
-                            var ns         = parseInt(data.no_surat);
-                            var block      = Math.floor((ns - 1) / 20);
-                            var rangeStart = (block * 20) + 1;
-                            var rangeEnd   = rangeStart + 19;
-                            infoDiv.innerHTML = '<span style="color:#009688;">'
-                                + '<i class="material-icons" style="font-size:0.9rem;vertical-align:middle;">check_circle</i> '
-                                + 'No. Surat: <strong>' + ns + '</strong> '
-                                + '&nbsp;(Blok tanggal ini: ' + rangeStart + ' &ndash; ' + rangeEnd + ')'
-                                + '</span>';
-                            btnSimpan.disabled = false;
-                        } catch(e) {
-                            infoDiv.innerHTML = '<span style="color:red;">Gagal membaca respon server</span>';
+                        } else {
+                            infoDiv.innerHTML = '<span style="color:red;">Koneksi gagal (Status: ' + xhr.status + ')</span>';
                         }
                     }
                 };
                 xhr.send();
             }
 
-            // Tunggu jQuery & pickadate siap, lalu pasang event listener
+            // Tunggu jQuery & pickadate siap, lalu pasang event listener & watchdog
             $(document).ready(function(){
-                // pickadate menginisialisasi #tgl_surat di footer.php
-                // Gunakan jQuery .change() yang diikut-sertakan oleh pickadate
-                $('#tgl_surat').change(function(){
-                    var val = $(this).val();
-                    if(val){ fetchNoSuratSprint(val); }
+                var tglInput = $('#tgl_surat');
+                var lastVal  = '';
+
+                // Watchdog setInterval untuk memantau perubahan nilai tgl_surat secara realtime
+                setInterval(function(){
+                    var currentVal = tglInput.val();
+                    if(currentVal !== lastVal){
+                        lastVal = currentVal;
+                        if(currentVal){
+                            fetchNoSuratSprint(currentVal);
+                        }
+                    }
+                }, 300);
+
+                // Jalankan sekali saat load jika sudah ada isinya
+                if(tglInput.val()){
+                    fetchNoSuratSprint(tglInput.val());
+                }
+
+                // Klik pada icon prefix atau label akan langsung membuka picker
+                $('.input-field .prefix, .input-field label[for="tgl_surat"]').on('click', function(e){
+                    e.preventDefault();
+                    var picker = tglInput.pickadate('picker');
+                    if(picker){
+                        picker.open();
+                    } else {
+                        tglInput.focus();
+                    }
                 });
             });
             </script>

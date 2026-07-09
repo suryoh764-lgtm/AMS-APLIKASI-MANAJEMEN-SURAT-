@@ -185,7 +185,20 @@
 
                 </form>
             </div>
-            <!-- Row form END -->
+            <script>
+            $(document).ready(function(){
+                var tglInput = $('#tgl_surat');
+                $('.input-field .prefix, .input-field label[for="tgl_surat"]').on('click', function(e){
+                    e.preventDefault();
+                    var picker = tglInput.pickadate('picker');
+                    if(picker){
+                        picker.open();
+                    } else {
+                        tglInput.focus();
+                    }
+                });
+            });
+            </script>
 
 <?php
         }

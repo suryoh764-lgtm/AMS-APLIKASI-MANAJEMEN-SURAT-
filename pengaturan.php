@@ -217,7 +217,7 @@
                                 <!-- Row in form START -->
                                 <div class="row">
                                     <div class="input-field col s6">
-                                        <i class="material-icons prefix md-prefix">school</i>
+                                        <i class="material-icons prefix md-prefix">business</i>
                                         <input id="nama" type="text" class="validate" name="nama" value="<?php echo $row['nama']; ?>" required>
                                             <?php
                                                 if(isset($_SESSION['namains'])){

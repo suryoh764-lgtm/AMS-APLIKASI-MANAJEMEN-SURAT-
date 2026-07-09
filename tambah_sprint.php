@@ -272,8 +272,16 @@
                 xhr.send();
             }
 
-            // Tunggu jQuery & pickadate siap, lalu pasang event listener & watchdog
-            $(document).ready(function(){
+            // Tunggu jQuery & pickadate siap menggunakan Vanilla JS (karena jQuery baru di-load di footer.php)
+            (function checkJQueryReady() {
+                if (window.jQuery && window.jQuery.fn && window.jQuery.fn.pickadate) {
+                    initSprintForm();
+                } else {
+                    setTimeout(checkJQueryReady, 50);
+                }
+            })();
+
+            function initSprintForm() {
                 var tglInput = $('#tgl_surat_sprint');
                 
                 // Inisialisasi picker secara eksklusif (footer.php tidak akan menimpa ini karena ID-nya berbeda)
@@ -321,7 +329,7 @@
                 if(tglInput.val()){
                     fetchNoSuratSprint(tglInput.val());
                 }
-            });
+            }
             </script>
 
 <?php

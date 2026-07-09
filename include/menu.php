@@ -46,6 +46,7 @@
                 </ul>
             </li>
             <li><a href="./"><i class="material-icons middle">dashboard</i> Beranda</a></li>
+            <li><a href="?page=sprint"><i class="material-icons middle">flash_on</i> Sprint</a></li>
             <li class="no-padding">
                 <?php
                     if($_SESSION['admin'] == 1 || $_SESSION['admin'] == 3){ ?>
@@ -135,6 +136,7 @@
             <li><a href="./" class="ams hide-on-med-and-down">BNN</a></li>
             <li><div class="grs"></></li>
             <li><a href="./"><i class="material-icons"></i>&nbsp; Beranda</a></li>
+            <li><a href="?page=sprint"><i class="material-icons" style="vertical-align:middle;">flash_on</i>&nbsp; Sprint</a></li>
             <?php
                 if($_SESSION['admin'] == 1 || $_SESSION['admin'] == 3){ ?>
             <li><a class="dropdown-button" href="#!" data-activates="transaksi">Transaksi Surat <i class="material-icons md-18">arrow_drop_down</i></a></li>

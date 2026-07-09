@@ -84,6 +84,9 @@ Website     : https://bnn.com
                 case 'disp':
                     include "daftar_disposisi.php";
                     break;
+                case 'sprint':
+                    include "sprint.php";
+                    break;
             }
         } else {
     ?>
@@ -117,10 +120,10 @@ Website     : https://bnn.com
                 //menghitung jumlah surat masuk
                 $count1 = mysqli_num_rows(mysqli_query($config, "SELECT * FROM tbl_surat_masuk"));
 
-                //menghitung jumlah surat masuk
+                //menghitung jumlah surat keluar
                 $count2 = mysqli_num_rows(mysqli_query($config, "SELECT * FROM tbl_surat_keluar"));
 
-                //menghitung jumlah surat masuk
+                //menghitung jumlah disposisi
                 $count3 = mysqli_num_rows(mysqli_query($config, "SELECT * FROM tbl_disposisi"));
 
                 //menghitung jumlah klasifikasi
@@ -128,6 +131,19 @@ Website     : https://bnn.com
 
                 //menghitung jumlah pengguna
                 $count5 = mysqli_num_rows(mysqli_query($config, "SELECT * FROM tbl_user"));
+
+                //menghitung jumlah sprint
+                $count6 = mysqli_num_rows(mysqli_query($config, "SELECT * FROM tbl_sprint"));
+
+                //menghitung jumlah no. surat sprint terbesar
+                $sprint_last_q = mysqli_query($config, "SELECT MAX(no_surat) as last_no FROM tbl_sprint");
+                $sprint_last_r = mysqli_fetch_assoc($sprint_last_q);
+                $sprint_last_no = $sprint_last_r['last_no'] ? $sprint_last_r['last_no'] : 0;
+
+                //menghitung total tanggal unik sprint
+                $sprint_dates_q = mysqli_query($config, "SELECT COUNT(DISTINCT tgl_surat) as total FROM tbl_sprint");
+                $sprint_dates_r = mysqli_fetch_assoc($sprint_dates_q);
+                $sprint_total_dates = (int)$sprint_dates_r['total'];
             ?>
 
             <!-- Info Statistic START -->
@@ -187,10 +203,73 @@ Website     : https://bnn.com
                         </div>
                     </div>
                 </a>
-            <!-- Info Statistic START -->
+            <!-- Info Statistic END -->
         <?php
             }
         ?>
+
+            <!-- Sprint Section START -->
+            <div class="col s12" style="margin-top: 10px;">
+                <div class="card" style="border-left: 5px solid #009688; border-radius: 4px;">
+                    <div class="card-content" style="padding: 15px 20px;">
+                        <span class="card-title" style="font-size:1.4rem; color:#009688;">
+                            <i class="material-icons md-36" style="vertical-align:middle;">flash_on</i>
+                            Sprint
+                            <a href="?page=sprint" class="btn-flat right teal-text waves-effect" style="margin-top:-5px;">
+                                Lihat Semua <i class="material-icons right">arrow_forward</i>
+                            </a>
+                        </span>
+                        <div class="row" style="margin: 10px 0 0;">
+                            <div class="col s12 m4">
+                                <div style="background:#e0f2f1; border-radius:8px; padding:12px 16px; text-align:center;">
+                                    <p style="margin:0; font-size:0.85rem; color:#00796b;">Total Data Sprint</p>
+                                    <h4 style="margin:4px 0; color:#009688; font-weight:bold;"><?php echo $count6; ?></h4>
+                                    <p style="margin:0; font-size:0.8rem; color:#555;">entri</p>
+                                </div>
+                            </div>
+                            <div class="col s12 m4">
+                                <div style="background:#fce4ec; border-radius:8px; padding:12px 16px; text-align:center;">
+                                    <p style="margin:0; font-size:0.85rem; color:#c62828;">No. Surat Terakhir</p>
+                                    <h4 style="margin:4px 0; color:#e53935; font-weight:bold;"><?php echo $sprint_last_no ?: '—'; ?></h4>
+                                    <p style="margin:0; font-size:0.8rem; color:#555;">nomor</p>
+                                </div>
+                            </div>
+                            <div class="col s12 m4">
+                                <div style="background:#e8f5e9; border-radius:8px; padding:12px 16px; text-align:center;">
+                                    <p style="margin:0; font-size:0.85rem; color:#2e7d32;">Tanggal Unik Digunakan</p>
+                                    <h4 style="margin:4px 0; color:#388e3c; font-weight:bold;"><?php echo $sprint_total_dates; ?></h4>
+                                    <p style="margin:0; font-size:0.8rem; color:#555;">blok tanggal</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Data terbaru sprint -->
+                        <?php
+                            $sprint_recent = mysqli_query($config, "SELECT * FROM tbl_sprint ORDER BY id_sprint DESC LIMIT 5");
+                            if(mysqli_num_rows($sprint_recent) > 0){
+                                echo '<div style="margin-top:15px;">';
+                                echo '<p style="font-size:0.85rem; color:#777; margin-bottom:5px;"><strong>5 Data Sprint Terbaru:</strong></p>';
+                                echo '<table class="bordered" style="font-size:0.88rem;">';
+                                echo '<thead class="teal lighten-4"><tr>';
+                                echo '<th>No. Surat</th><th>Tgl Surat</th><th>Perihal</th><th>Asal Surat</th><th>Tujuan Surat</th>';
+                                echo '</tr></thead><tbody>';
+                                while($sr = mysqli_fetch_array($sprint_recent)){
+                                    echo '<tr>';
+                                    echo '<td><strong>'.$sr['no_surat'].'</strong></td>';
+                                    echo '<td>'.indoDate($sr['tgl_surat']).'</td>';
+                                    echo '<td>'.substr($sr['perihal'],0,60).(strlen($sr['perihal'])>60?'...':'').'</td>';
+                                    echo '<td>'.$sr['asal_surat'].'</td>';
+                                    echo '<td>'.$sr['tujuan_surat'].'</td>';
+                                    echo '</tr>';
+                                }
+                                echo '</tbody></table></div>';
+                            } else {
+                                echo '<p style="color:#777; margin-top:10px; font-size:0.9rem;"><em>Belum ada data sprint. <a href="?page=sprint&act=add" class="teal-text">Tambah data pertama</a></em></p>';
+                            }
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <!-- Sprint Section END -->
 
         </div>
         <!-- Row END -->

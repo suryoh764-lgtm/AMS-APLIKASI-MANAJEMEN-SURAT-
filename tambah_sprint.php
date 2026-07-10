@@ -41,30 +41,18 @@
                     // ============================================================
                     $tgl_safe = mysqli_real_escape_string($config, $tgl_surat);
 
-                    $total_q  = mysqli_query($config, "SELECT COUNT(DISTINCT tgl_surat) as total FROM tbl_sprint");
-                    $total_r  = mysqli_fetch_assoc($total_q);
-                    $total_d  = (int)$total_r['total'];
-
-                    if($total_d == 0){
-                        $final_no = 1;
+                    $q_cek = mysqli_query($config, "SELECT no_surat FROM tbl_sprint WHERE tgl_surat = '$tgl_safe' LIMIT 1");
+                    if(mysqli_num_rows($q_cek) > 0){
+                        $r_cek = mysqli_fetch_assoc($q_cek);
+                        $final_no = $r_cek['no_surat'];
                     } else {
-                        $cnt_q    = mysqli_query($config, "SELECT COUNT(*) as cnt FROM tbl_sprint WHERE tgl_surat = '$tgl_safe'");
-                        $cnt_r    = mysqli_fetch_assoc($cnt_q);
-                        $cnt_date = (int)$cnt_r['cnt'];
-
-                        if($cnt_date > 0){
-                            // Cari block index tanggal ini
-                            $dates_q = mysqli_query($config,
-                                "SELECT tgl_surat FROM tbl_sprint
-                                 GROUP BY tgl_surat ORDER BY MIN(id_sprint) ASC");
-                            $bidx = 0;
-                            while($dr = mysqli_fetch_assoc($dates_q)){
-                                if($dr['tgl_surat'] == $tgl_safe) break;
-                                $bidx++;
-                            }
-                            $final_no = ($bidx * 20) + $cnt_date + 1;
+                        $q_max = mysqli_query($config, "SELECT MAX(no_surat) as max_no FROM tbl_sprint");
+                        $r_max = mysqli_fetch_assoc($q_max);
+                        $max_no = (int)$r_max['max_no'];
+                        if($max_no == 0) {
+                            $final_no = 1;
                         } else {
-                            $final_no = ($total_d * 20) + 1;
+                            $final_no = $max_no + 20;
                         }
                     }
 
@@ -96,7 +84,7 @@
                     <nav class="secondary-nav">
                         <div class="nav-wrapper blue-grey darken-1">
                             <ul class="left">
-                                <li class="waves-effect waves-light"><a href="?page=sprint&act=add" class="judul"><i class="material-icons">flash_on</i> Tambah Data Sprint</a></li>
+                                <li class="waves-effect waves-light"><a href="?page=sprint&act=add" class="judul">Tambah Data Sprint</a></li>
                             </ul>
                         </div>
                     </nav>
@@ -133,9 +121,9 @@
                             <p style="font-size:0.95rem; color:#00695c; margin:0;">
                                 <i class="material-icons" style="vertical-align:middle; font-size:1.1rem;">info</i>
                                 <strong>Info Penomoran Surat:</strong>
-                                Nomor surat diisi otomatis berdasarkan tanggal yang dipilih (kelipatan 20 per tanggal unik).
-                                Jika belum ada data sama sekali → no. surat dimulai dari <strong>1</strong>.
-                                Setiap tanggal baru mendapat blok berikutnya (+20).
+                                Nomor surat diisi otomatis berdasarkan tanggal yang dipilih.
+                                Jika di tanggal yang sama, no. surat akan <strong>sama</strong>.
+                                Setiap tanggal baru mendapat blok nomor urut berikutnya (+20).
                             </p>
                         </div>
                     </div>
@@ -152,11 +140,10 @@
                     <div class="row">
 
                         <!-- Tanggal Surat (trigger utama) -->
-                        <div class="input-field col s6" style="position: relative; z-index: 10;">
-                            <i class="material-icons prefix md-prefix" style="cursor: pointer;">date_range</i>
-                            <input id="tgl_surat_sprint" type="text" name="tgl_surat" class="datepicker validate" required
-                                   style="position: relative; z-index: 11; cursor: pointer; background: transparent;">
-                            <label for="tgl_surat_sprint">Tanggal Surat</label>
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix md-prefix">date_range</i>
+                            <input id="tgl_surat" type="text" name="tgl_surat" class="validate" required>
+                            <label for="tgl_surat">Tanggal Surat</label>
                         </div>
                         <div class="col s6" style="margin-top: -15px; margin-bottom: 15px; float: left; width: 50%;">
                             <small class="teal-text">
@@ -252,13 +239,9 @@
                                 }
                                 noSuratInput.value = data.no_surat;
                                 var ns         = parseInt(data.no_surat);
-                                var block      = Math.floor((ns - 1) / 20);
-                                var rangeStart = (block * 20) + 1;
-                                var rangeEnd   = rangeStart + 19;
                                 infoDiv.innerHTML = '<span style="color:#009688;">'
                                     + '<i class="material-icons" style="font-size:0.9rem;vertical-align:middle;">check_circle</i> '
                                     + 'No. Surat: <strong>' + ns + '</strong> '
-                                    + '&nbsp;(Blok tanggal ini: ' + rangeStart + ' &ndash; ' + rangeEnd + ')'
                                     + '</span>';
                                 btnSimpan.disabled = false;
                             } catch(e) {
@@ -272,64 +255,25 @@
                 xhr.send();
             }
 
-            // Tunggu jQuery & pickadate siap menggunakan Vanilla JS (karena jQuery baru di-load di footer.php)
+            // Tunggu jQuery siap
             (function checkJQueryReady() {
-                if (window.jQuery && window.jQuery.fn && window.jQuery.fn.pickadate) {
-                    initSprintForm();
+                if (window.jQuery) {
+                    var tglInput = $('#tgl_surat');
+                    var lastVal  = tglInput.val();
+                    setInterval(function(){
+                        var currentVal = tglInput.val();
+                        if(currentVal !== lastVal){
+                            lastVal = currentVal;
+                            if(currentVal){
+                                fetchNoSuratSprint(currentVal);
+                            }
+                        }
+                    }, 300);
+                    if (lastVal) fetchNoSuratSprint(lastVal);
                 } else {
                     setTimeout(checkJQueryReady, 50);
                 }
             })();
-
-            function initSprintForm() {
-                var tglInput = $('#tgl_surat_sprint');
-                
-                // Inisialisasi picker secara eksklusif (footer.php tidak akan menimpa ini karena ID-nya berbeda)
-                tglInput.pickadate({
-                    selectMonths: true,
-                    selectYears: 10,
-                    format: "yyyy-mm-dd",
-                    onSet: function(context) {
-                        if(context.select){
-                            // Ambil dari instance picker secara aman
-                            var pickerInstance = tglInput.pickadate('picker');
-                            if(pickerInstance){
-                                var formattedDate = pickerInstance.get('select', 'yyyy-mm-dd');
-                                fetchNoSuratSprint(formattedDate);
-                            }
-                        }
-                    }
-                });
-
-                var picker = tglInput.pickadate('picker');
-
-                // Klik pada input, icon prefix, atau label akan langsung membuka picker
-                $('#tgl_surat_sprint, .input-field .prefix, .input-field label[for="tgl_surat_sprint"]').on('click', function(e){
-                    e.preventDefault();
-                    if(picker){
-                        picker.open();
-                    } else {
-                        tglInput.focus();
-                    }
-                });
-
-                // Watchdog backup untuk memantau value perubahan secara pasif
-                var lastVal  = '';
-                setInterval(function(){
-                    var currentVal = tglInput.val();
-                    if(currentVal !== lastVal){
-                        lastVal = currentVal;
-                        if(currentVal){
-                            fetchNoSuratSprint(currentVal);
-                        }
-                    }
-                }, 300);
-
-                // Jalankan sekali saat load jika sudah ada isinya
-                if(tglInput.val()){
-                    fetchNoSuratSprint(tglInput.val());
-                }
-            }
             </script>
 
 <?php

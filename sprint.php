@@ -41,7 +41,7 @@
                             <div class="nav-wrapper blue-grey darken-1">
                                 <div class="col m7">
                                     <ul class="left">
-                                        <li class="waves-effect waves-light hide-on-small-only"><a href="?page=sprint" class="judul"><i class="material-icons">flash_on</i> Sprint</a></li>
+                                        <li class="waves-effect waves-light hide-on-small-only"><a href="?page=sprint" class="judul">Sprint</a></li>
                                         <li class="waves-effect waves-light">
                                             <a href="?page=sprint&act=add"><i class="material-icons md-24">add_circle</i> Tambah Data</a>
                                         </li>
@@ -143,7 +143,7 @@
                            OR tujuan_surat LIKE '%$cari%'
                            OR keterangan LIKE '%$cari%'
                            OR no_surat LIKE '%$cari%'
-                        ORDER BY id_sprint DESC LIMIT 15");
+                        ORDER BY no_surat DESC, id_sprint DESC LIMIT 15");
 
                     if(mysqli_num_rows($query) > 0){
                         while($row = mysqli_fetch_array($query)){
@@ -192,7 +192,7 @@
                             </thead>
                             <tbody>';
 
-                    $query = mysqli_query($config, "SELECT * FROM tbl_sprint ORDER BY id_sprint DESC LIMIT $curr, $limit");
+                    $query = mysqli_query($config, "SELECT * FROM tbl_sprint ORDER BY no_surat DESC, id_sprint DESC LIMIT $curr, $limit");
                     if(mysqli_num_rows($query) > 0){
                         while($row = mysqli_fetch_array($query)){
                             echo '

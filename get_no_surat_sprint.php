@@ -43,28 +43,23 @@ if ($total_dates == 0) {
 }
 
 // Cek apakah tanggal ini sudah pernah digunakan
-$count_query    = mysqli_query($config, "SELECT COUNT(*) as cnt FROM tbl_sprint WHERE tgl_surat = '$tgl'");
-$count_row      = mysqli_fetch_assoc($count_query);
-$count_for_date = (int) $count_row['cnt'];
+$cek_query = mysqli_query($config, "SELECT no_surat FROM tbl_sprint WHERE tgl_surat = '$tgl' LIMIT 1");
 
-if ($count_for_date > 0) {
-    // Tanggal sudah ada → cari posisi bloknya (berdasarkan urutan first insertion)
-    $dates_query = mysqli_query($config,
-        "SELECT tgl_surat FROM tbl_sprint
-         GROUP BY tgl_surat
-         ORDER BY MIN(id_sprint) ASC"
-    );
-    $block_index = 0;
-    while ($row = mysqli_fetch_assoc($dates_query)) {
-        if ($row['tgl_surat'] == $tgl) {
-            break;
-        }
-        $block_index++;
-    }
-    $no_surat = ($block_index * 20) + $count_for_date + 1;
+if (mysqli_num_rows($cek_query) > 0) {
+    // Tanggal sudah ada → gunakan nomor yang sama
+    $row = mysqli_fetch_assoc($cek_query);
+    $no_surat = $row['no_surat'];
 } else {
-    // Tanggal baru → blok berikutnya setelah semua tanggal yang sudah ada
-    $no_surat = ($total_dates * 20) + 1;
+    // Tanggal baru → ambil nomor terbesar + 20 (kelipatan 20 per tanggal baru)
+    $max_query = mysqli_query($config, "SELECT MAX(no_surat) as max_no FROM tbl_sprint");
+    $max_row = mysqli_fetch_assoc($max_query);
+    $max_no = (int)$max_row['max_no'];
+    
+    if ($max_no == 0) {
+        $no_surat = 1;
+    } else {
+        $no_surat = $max_no + 20;
+    }
 }
 
 echo json_encode([

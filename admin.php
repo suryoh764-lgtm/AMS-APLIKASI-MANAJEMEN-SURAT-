@@ -213,7 +213,6 @@ Website     : https://bnn.com
                 <div class="card" style="border-left: 5px solid #009688; border-radius: 4px;">
                     <div class="card-content" style="padding: 15px 20px;">
                         <span class="card-title" style="font-size:1.4rem; color:#009688;">
-                            <i class="material-icons md-36" style="vertical-align:middle;">flash_on</i>
                             Sprint
                             <a href="?page=sprint" class="btn-flat right teal-text waves-effect" style="margin-top:-5px;">
                                 Lihat Semua <i class="material-icons right">arrow_forward</i>
@@ -244,7 +243,7 @@ Website     : https://bnn.com
                         </div>
                         <!-- Data terbaru sprint -->
                         <?php
-                            $sprint_recent = mysqli_query($config, "SELECT * FROM tbl_sprint ORDER BY id_sprint DESC LIMIT 5");
+                            $sprint_recent = mysqli_query($config, "SELECT * FROM tbl_sprint ORDER BY no_surat DESC, id_sprint DESC LIMIT 5");
                             if(mysqli_num_rows($sprint_recent) > 0){
                                 echo '<div style="margin-top:15px;">';
                                 echo '<p style="font-size:0.85rem; color:#777; margin-bottom:5px;"><strong>5 Data Sprint Terbaru:</strong></p>';

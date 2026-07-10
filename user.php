@@ -32,6 +32,7 @@
                 }
 
                 $query = mysqli_query($config, "SELECT * FROM tbl_user LIMIT $curr, $limit");
+                $count5 = mysqli_num_rows(mysqli_query($config, "SELECT * FROM tbl_user"));
                 echo '<!-- Row Start -->
                     <div class="row">
                         <!-- Secondary Nav START -->
@@ -45,6 +46,9 @@
                                                 <li class="waves-effect waves-light">
                                                     <a href="?page=sett&sub=usr&act=add"><i class="material-icons md-24">person_add</i> Tambah User</a>
                                                 </li>
+                                            </ul>
+                                            <ul class="right">
+                                                <li class="hide-on-small-only"><a href="#!" style="cursor: default;"><i class="material-icons left">group</i> Total: '.$count5.' Pengguna</a></li>
                                             </ul>
                                         </div>
                                     </div>

@@ -143,7 +143,7 @@
                            OR tujuan_surat LIKE '%$cari%'
                            OR keterangan LIKE '%$cari%'
                            OR no_surat LIKE '%$cari%'
-                        ORDER BY no_surat DESC, id_sprint DESC LIMIT 15");
+                        ORDER BY no_surat ASC, id_sprint ASC LIMIT 15");
 
                     if(mysqli_num_rows($query) > 0){
                         while($row = mysqli_fetch_array($query)){
@@ -192,7 +192,7 @@
                             </thead>
                             <tbody>';
 
-                    $query = mysqli_query($config, "SELECT * FROM tbl_sprint ORDER BY no_surat DESC, id_sprint DESC LIMIT $curr, $limit");
+                    $query = mysqli_query($config, "SELECT * FROM tbl_sprint ORDER BY no_surat ASC, id_sprint ASC LIMIT $curr, $limit");
                     if(mysqli_num_rows($query) > 0){
                         while($row = mysqli_fetch_array($query)){
                             echo '

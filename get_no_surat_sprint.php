@@ -50,15 +50,29 @@ if (mysqli_num_rows($cek_query) > 0) {
     $row = mysqli_fetch_assoc($cek_query);
     $no_surat = $row['no_surat'];
 } else {
-    // Tanggal baru → ambil nomor terbesar + 20 (kelipatan 20 per tanggal baru)
-    $max_query = mysqli_query($config, "SELECT MAX(no_surat) as max_no FROM tbl_sprint");
-    $max_row = mysqli_fetch_assoc($max_query);
-    $max_no = (int)$max_row['max_no'];
+    // Tanggal baru
+    $q_max_before = mysqli_query($config, "SELECT MAX(no_surat) as max_no FROM tbl_sprint WHERE tgl_surat < '$tgl'");
+    $r_max_before = mysqli_fetch_assoc($q_max_before);
+    $max_before = (int)$r_max_before['max_no'];
     
-    if ($max_no == 0) {
-        $no_surat = 1;
+    $q_min_after = mysqli_query($config, "SELECT MIN(no_surat) as min_no FROM tbl_sprint WHERE tgl_surat > '$tgl'");
+    $r_min_after = mysqli_fetch_assoc($q_min_after);
+    $min_after = $r_min_after['min_no'];
+    
+    if ($min_after === null) {
+        // Tanggal ini adalah tanggal paling baru (bukan backdate)
+        if ($max_before == 0) {
+            $no_surat = 1;
+        } else {
+            $no_surat = $max_before + 20; // Kasih jarak 20 untuk antisipasi backdate
+        }
     } else {
-        $no_surat = $max_no + 20;
+        // Tanggal backdate (mundur)
+        if ($max_before == 0) {
+            $no_surat = 1;
+        } else {
+            $no_surat = $max_before + 1; // Ambil 1 angka setelah tanggal sebelumnya
+        }
     }
 }
 
